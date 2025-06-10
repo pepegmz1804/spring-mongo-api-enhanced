@@ -53,7 +53,7 @@ Para la versión en ingles, ve a [README.md](README.md)
 ---
 
 ## 📦 Estructura del Proyecto
-
+```
 spring-mongo-api/
 ├── src/
 |
@@ -66,7 +66,7 @@ spring-mongo-api/
 ├── README_es.md # Información del proyecto en español
 |
 └── ...
-
+```
 
 ---
 
