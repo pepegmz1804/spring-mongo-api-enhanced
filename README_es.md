@@ -3,13 +3,9 @@
 **Descripción del proyecto:**  
 API REST desarrollada con Spring Boot 3.5.0, Java 24 y MongoDB 8.0.10 para gestionar Usuarios y Roles con funcionalidad CRUD completa.
 
-
 - Se aprovechó el modelo documental de MongoDB para almacenar directamente los IDs de roles como un arreglo dentro del documento Usuario.
-
 - Esto elimina la necesidad de manejar una tabla o colección adicional para la relación muchos a muchos.
-
 - Simplifica las consultas y operaciones CRUD, haciendo uso de las ventajas de MongoDB para manejar datos embebidos o referencias.
-
 - Este diseño facilita la escalabilidad y flexibilidad, especialmente cuando la cantidad de roles por usuario puede variar.
 
 ---
@@ -60,15 +56,6 @@ Para la versión en ingles, ve a [README.md](README.md)
 
 spring-mongo-api/
 ├── src/
-
-    Se aprovechó el modelo documental de MongoDB para almacenar directamente los IDs de roles como un arreglo dentro del documento Usuario.
-
-    Esto elimina la necesidad de manejar una tabla o colección adicional para la relación muchos a muchos.
-
-    Simplifica las consultas y operaciones CRUD, haciendo uso de las ventajas de MongoDB para manejar datos embebidos o referencias.
-
-    Este diseño facilita la escalabilidad y flexibilidad, especialmente cuando la cantidad de roles por usuario puede variar.
-
 ├── db/ # Archivos JSON para importar datos iniciales
 ├── postman/ # Colecciones Postman para pruebas
 ├── README.md # Información del proyecto en inglés
@@ -111,7 +98,8 @@ Para probar los endpoints de la API.
 
 ## 📌 Resumen de Endpoints
 
-Documentación más extensa de la API corriendo el proyecto y navegando a:  
+Se implementa la libreria Swagger para tener una documentación más extensa de la API
+
 [text](http://localhost:8080/swagger-ui/index.html)
 
 ---
