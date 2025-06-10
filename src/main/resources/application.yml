@@ -3,7 +3,7 @@ spring:
     mongodb:
       auto-index-creation: false
       host: localhost
-      port: 27018 # Change this port for current Mongo instance
+      port: 27017 # Change this port for current Mongo instance
       database: spring_mongo_api_db
 
 server:
