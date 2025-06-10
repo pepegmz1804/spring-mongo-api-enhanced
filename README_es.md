@@ -19,7 +19,7 @@ Para la versión en ingles, ve a [README.md](README.md)
     - `Id` (generado automáticamente)  
     - `Firstname`  
     - `Lastname paternal`  
-    - `Lastname Maternal`  
+    - `Lastname maternal`  
     - `Roles` (Lista de ids de roles)
 
   - `Role`  
@@ -88,17 +88,22 @@ La API estará disponible en http://localhost:8080.
 
 ## 🧪 Importar datos Iniciales
 
-Ejecuta estos comandos para cargar roles y usuarios:
+Para inicializar la base de datos con datos de prueba, se creó una clase DataInitializer que se ejecuta automáticamente al iniciar la aplicación y carga los datos necesarios. Sin embargo, también incluyeron los archivos JSON en la carpeta db/ para que poder importar manualmente los datos si se prefieres o si se desea restablecer la base fácilmente usando mongoimport.
+
+Ejecuta estos comandos para cargar roles, users y la secuencia de Ids desde archivos JSON:
 
 ```
 mongoimport --uri="mongodb://localhost:27017/spring_mongo_api_db" --collection=user --file=db/user.json --jsonArray
 mongoimport --uri="mongodb://localhost:27017/spring_mongo_api_db" --collection=role --file=db/role.json --jsonArray
 mongoimport --uri="mongodb://localhost:27017/spring_mongo_api_db" --collection=collectionSequence --file=db/collectionSequence.json --jsonArray
 ```
+Se crearon 5 roles, 15 usuarios y una colección llamada collectionSequence para gestionar los IDs autogenerados.
+
+No es posible eliminar roles que estén en uso. Por esta razón, los roles con clave "monitor" y "editor" no fueron asignados a ningún usuario, lo que permite probar la eliminación de roles de manera eficaz.
 
 ## 📬 Colección Postman
 
-Importa la colección Postman desde:
+Importa la siguiente colección en tu app Postman:
 
 `postman/spring-mongo-api.postman_collection.json`
 
