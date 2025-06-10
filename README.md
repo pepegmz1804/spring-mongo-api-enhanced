@@ -11,9 +11,9 @@
 
 For spanish version, go to [README_es.md](README_es.md)
 
-## 📋 Funcionalidades
+## 📋 Features
 
-- **Entidades:**
+- **Entities:**
   - `User`  
     - `Id` (auto-generated)  
     - `Firstname`  
