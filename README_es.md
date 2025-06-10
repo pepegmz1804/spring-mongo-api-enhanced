@@ -79,8 +79,10 @@ spring-mongo-api/
 ./mvnw clean install
 ./mvnw spring-boot:run
 
-3.La API estará disponible en http://localhost:8080.
 ```
+O corriendo '.../src/main/java/com/josegomez/spring_mongo_api/SpringMongoApiApplication.java' en tu IDE favorito.
+
+La API estará disponible en http://localhost:8080.
 
 ---
 
