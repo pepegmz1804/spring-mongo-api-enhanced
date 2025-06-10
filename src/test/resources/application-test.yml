@@ -1,0 +1,21 @@
+spring:
+  data:
+    mongodb:
+      auto-index-creation: false
+      host: localhost
+      port: 27018
+      database: spring_mongo_api_test_db
+
+server:
+  port: 0
+
+logging:
+  level:
+    root: WARN
+    '[com.josegomez.spring_mongo_api]': DEBUG
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

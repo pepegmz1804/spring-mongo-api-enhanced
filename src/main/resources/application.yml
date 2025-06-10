@@ -1,0 +1,22 @@
+spring:
+  data:
+    mongodb:
+      auto-index-creation: false
+      host: localhost
+      port: 27018 # Change this port for current Mongo instance
+      database: spring_mongo_api_db
+
+server:
+  port: 8080 # Port running Spring Boot app
+
+logging:
+  level:
+    root: INFO
+    '[com.josegomez.spring_mongo_api]': DEBUG
+
+springdoc:
+  default-produces-media-type: ''
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
