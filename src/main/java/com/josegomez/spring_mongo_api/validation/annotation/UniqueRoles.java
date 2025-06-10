@@ -5,15 +5,15 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import com.josegomez.spring_mongo_api.validation.validator.UniqueRolesValidator;
-
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
+// Custom annotation in Java named `UniqueRoles`. Valid role array containig just a role of every
+// type
 @Documented
 @Constraint(validatedBy = UniqueRolesValidator.class)
-@Target({ ElementType.FIELD })
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueRoles {
 

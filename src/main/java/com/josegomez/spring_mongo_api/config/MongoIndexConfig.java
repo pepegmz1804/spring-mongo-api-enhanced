@@ -5,9 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
-
 import jakarta.annotation.PostConstruct;
 
+/**
+ * The `MongoIndexConfig` class in Java creates unique indexes on the "key" and "name" fields of the
+ * "role" collection using `MongoTemplate`.
+ */
 @Configuration
 public class MongoIndexConfig {
 
@@ -16,9 +19,9 @@ public class MongoIndexConfig {
 
     @PostConstruct
     public void initIndexes() {
-        mongoTemplate.indexOps("role").createIndex(
-                new Index().on("key", Sort.Direction.ASC).unique());
-        mongoTemplate.indexOps("role").createIndex(
-                new Index().on("name", Sort.Direction.ASC).unique());
+        mongoTemplate.indexOps("role")
+                .createIndex(new Index().on("key", Sort.Direction.ASC).unique());
+        mongoTemplate.indexOps("role")
+                .createIndex(new Index().on("name", Sort.Direction.ASC).unique());
     }
 }

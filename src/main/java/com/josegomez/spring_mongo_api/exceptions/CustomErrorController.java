@@ -1,3 +1,7 @@
+/**
+ * The CustomErrorController class in Java handles and customizes error responses for a Spring Boot
+ * application.
+ */
 package com.josegomez.spring_mongo_api.exceptions;
 
 import java.time.LocalDateTime;

@@ -14,6 +14,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The Role class wit auto-generated id and validations
+ */
 @Document(collection = "role")
 @Data
 @NoArgsConstructor

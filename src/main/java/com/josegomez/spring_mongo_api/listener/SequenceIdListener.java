@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import com.josegomez.spring_mongo_api.domain.common.SequenceIdentifiable;
 import com.josegomez.spring_mongo_api.service.SequenceGeneratorService;
 
+/**
+ * The SequenceIdListener class is a Spring MongoDB event listener that generates sequence IDs for
+ * entities implementing the SequenceIdentifiable interface before conversion.
+ */
 @Component
 public class SequenceIdListener extends AbstractMongoEventListener<SequenceIdentifiable> {
 

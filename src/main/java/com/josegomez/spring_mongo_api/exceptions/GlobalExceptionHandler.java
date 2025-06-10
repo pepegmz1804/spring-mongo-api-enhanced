@@ -14,6 +14,10 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+/**
+ * The GlobalExceptionHandler class in this Java code handles various exceptions and generates
+ * appropriate error responses for different scenarios in a Spring application.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

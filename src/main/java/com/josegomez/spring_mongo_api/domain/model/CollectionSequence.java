@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity annotated for MongoDB. Used for save and retrieve next ids for collections
+ */
 @Document(collection = "collectionSequence")
 @Data
 @NoArgsConstructor

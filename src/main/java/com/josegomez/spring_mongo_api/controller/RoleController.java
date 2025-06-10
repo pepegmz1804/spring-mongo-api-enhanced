@@ -1,3 +1,7 @@
+/**
+ * The RoleController class in a Spring Boot application provides REST endpoints for CRUD operations
+ * on roles with pagination and filtering capabilities.
+ */
 package com.josegomez.spring_mongo_api.controller;
 
 import java.net.URI;
@@ -22,6 +26,9 @@ import com.josegomez.spring_mongo_api.service.RoleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * This Java class is a REST controller for managing roles with a specified API endpoint.
+ */
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor

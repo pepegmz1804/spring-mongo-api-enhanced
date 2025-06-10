@@ -10,6 +10,10 @@ import com.josegomez.spring_mongo_api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The DataInitializer class is a Spring component that implements CommandLineRunner. His
+ * method @run populate the database if data is not already exist
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -18,6 +22,9 @@ public class DataInitializer implements CommandLineRunner {
     private final RoleService roleService;
     private final UserService userService;
 
+    /**
+     * The function initializes roles and users data if they are not already present in the system.
+     */
     @Override
     public void run(String... args) throws Exception {
         if (roleService.count() == 0) {

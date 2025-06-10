@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.josegomez.spring_mongo_api.domain.model.CollectionSequence;
 
+/**
+ * This class  generates sequences retrieving CollectionSequence and using $inc.
+ */
 @Service
 public class SequenceGeneratorService {
 

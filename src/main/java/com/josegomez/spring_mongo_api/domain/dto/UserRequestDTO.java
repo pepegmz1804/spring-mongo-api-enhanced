@@ -14,6 +14,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data transfer object with fields for id, key, and name, for
+ * role responses
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

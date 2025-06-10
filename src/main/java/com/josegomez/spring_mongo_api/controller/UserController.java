@@ -22,6 +22,9 @@ import com.josegomez.spring_mongo_api.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * This class is a REST controller for managing user-related API endpoints.
+ */
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
