@@ -54,7 +54,10 @@ For spanish version, go to [README_es.md](README_es.md)
 ## 📦 Project Structure
 ```
 spring-mongo-api/
-├── src/
+├── src/──
+          |──main/ # source code
+          |
+          |──test # Unit and integrity test for role and user controllers
 |
 ├── db/ # JSON files to import initial data
 |
@@ -133,3 +136,8 @@ Swagger is integrated to provide a more detailed API documentation.
 | PUT    | `api/roles/{id}`                  | Update role               |
 | DELETE | `api/roles/{id}`                  | Delete role               |
 
+## Tests
+
+Unit and integration tests were implemented for the controllers, located at:
+
+- ../src/test/java/com/josegomez/spring_mongo_api/controller

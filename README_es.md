@@ -55,9 +55,12 @@ Para la versión en ingles, ve a [README.md](README.md)
 ## 📦 Estructura del Proyecto
 ```
 spring-mongo-api/
-├── src/
+├── src/──
+          |──main/ # código fuente
+          |
+          |──test # Pruebas unitarias y de integración para controladores de User y Role
 |
-├── db/ # Archivos JSON para importar datos iniciales
+├── db/ # JSON files to import initial data
 |
 ├── postman/ # Colecciones Postman para pruebas
 |
@@ -133,4 +136,10 @@ Se implementa la libreria Swagger para tener una documentación más extensa de 
 | PUT    | `api/roles/{id}`                   | Actualizar rol               |
 | DELETE | `api/roles/{id}`                   | Eliminar rol                 |
 
+
+## Pruebas
+
+Se implementaron pruebas unitarias y de integración para los controladores, ubicadas en:
+
+- ../src/test/java/com/josegomez/spring_mongo_api/controller
 
