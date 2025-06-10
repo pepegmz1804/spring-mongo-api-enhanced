@@ -56,10 +56,15 @@ Para la versión en ingles, ve a [README.md](README.md)
 
 spring-mongo-api/
 ├── src/
+|
 ├── db/ # Archivos JSON para importar datos iniciales
+|
 ├── postman/ # Colecciones Postman para pruebas
+|
 ├── README.md # Información del proyecto en inglés
+|
 ├── README_es.md # Información del proyecto en español
+|
 └── ...
 
 
@@ -75,6 +80,7 @@ spring-mongo-api/
 ./mvnw spring-boot:run
 
 3.La API estará disponible en http://localhost:8080.
+```
 
 ---
 
@@ -82,9 +88,11 @@ spring-mongo-api/
 
 Ejecuta estos comandos para cargar roles y usuarios:
 
+```
 mongoimport --uri="mongodb://localhost:27017/spring_mongo_api_db" --collection=user --file=db/user.json --jsonArray
 mongoimport --uri="mongodb://localhost:27017/spring_mongo_api_db" --collection=role --file=db/role.json --jsonArray
 mongoimport --uri="mongodb://localhost:27017/spring_mongo_api_db" --collection=collectionSequence --file=db/collectionSequence.json --jsonArray
+```
 
 ## 📬 Colección Postman
 
