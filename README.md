@@ -61,7 +61,7 @@ spring-mongo-api/
 |
 ├── db/ # JSON files to import initial data
 |
-├── postman/ # Colecciones Postman para pruebas
+├── postman/ # Postman Collections for tetsing
 |
 ├── README.md # Project information (English)
 |
