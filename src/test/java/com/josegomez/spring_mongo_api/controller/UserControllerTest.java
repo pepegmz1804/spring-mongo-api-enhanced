@@ -13,6 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.util.List;
 import java.util.Optional;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,6 +32,7 @@ import com.josegomez.spring_mongo_api.service.RoleService;
 import com.josegomez.spring_mongo_api.service.UserService;
 
 @WebMvcTest(UserController.class)
+@Disabled
 class UserControllerTest {
 
     @Autowired

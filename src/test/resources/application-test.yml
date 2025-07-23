@@ -3,8 +3,13 @@ spring:
     mongodb:
       auto-index-creation: false
       host: localhost
-      port: 27018
       database: spring_mongo_api_test_db
+      host: localhost
+      port: 27017
+      username: dbUser
+      password: dbPassword
+      authentication-database: admin
+
 
 server:
   port: 0

@@ -48,6 +48,17 @@ public class User implements SequenceIdentifiable {
 
     @NotEmpty(message = "User must have at least one role")
     private List<Long> roles;
+    
+    @NotBlank(message = "Username is required")
+    @Size(max = 50, message = "Username must be at most 50 characters long")
+    @Indexed(unique = true)
+    private String username;
+
+    @NotBlank(message = "Password is required")
+    private String password; // hasheabke con BCrypt
+
+    @Builder.Default
+    private boolean enabled = true; // para permitir/deshabilitar login
 
     @Override
     public Long getId() {

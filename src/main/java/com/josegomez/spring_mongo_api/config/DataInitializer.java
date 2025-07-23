@@ -1,17 +1,26 @@
 package com.josegomez.spring_mongo_api.config;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.bson.types.ObjectId;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.josegomez.spring_mongo_api.domain.dto.RoleRequestDTO;
 import com.josegomez.spring_mongo_api.domain.dto.UserRequestDTO;
+import com.josegomez.spring_mongo_api.domain.model.Role;
+import com.josegomez.spring_mongo_api.domain.model.User;
+import com.josegomez.spring_mongo_api.repository.RoleRepository;
+import com.josegomez.spring_mongo_api.repository.UserRepository;
 import com.josegomez.spring_mongo_api.service.RoleService;
 import com.josegomez.spring_mongo_api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The DataInitializer class is a Spring component that implements CommandLineRunner. His
+ * The DataInitializer class is a Spring component that implements
+ * CommandLineRunner. His
  * method @run populate the database if data is not already exist
  */
 @Component
@@ -21,9 +30,13 @@ public class DataInitializer implements CommandLineRunner {
 
     private final RoleService roleService;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
-     * The function initializes roles and users data if they are not already present in the system.
+     * The function initializes roles and users data if they are not already present
+     * in the system.
      */
     @Override
     public void run(String... args) throws Exception {
@@ -63,6 +76,21 @@ public class DataInitializer implements CommandLineRunner {
             userService.saveAll(users);
             log.info("Users data initialized");
         }
+
+        if (userRepository.findByUsername("admin").isEmpty()) {
+            List<Role> adminRoles = roleRepository.findByKeyIn(List.of("ROLE_ADMIN"));
+            List<Long> roleIds = adminRoles.stream()
+            .map(Role::getId)
+            .collect(Collectors.toList());
+
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRoles(roleIds); // o lo que uses
+            userRepository.save(admin);
+            log.info("✔ Usuario admin creado.");
+        }
+
     }
 
     private RoleRequestDTO buildRole(String key, String name) {

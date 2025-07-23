@@ -40,4 +40,6 @@ public interface RoleRepository extends MongoRepository<Role, Long> {
     Page<Role> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
 
+    List<Role> findByIdIn(List<Long> ids);
+
 }
