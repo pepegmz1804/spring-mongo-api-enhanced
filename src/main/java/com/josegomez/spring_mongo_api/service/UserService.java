@@ -78,7 +78,8 @@ public class UserService {
         User user = modelMapper.map(userRequest, User.class);
         List<Long> roleIds = roles.stream().map(Role::getId).toList();
         user.setRoles(roleIds);
-
+        user.setEnabled(false); // every user created has enabled false until the aacount activate
+        
         User savedUser = userRepository.save(user);
 
         MatchOperation match = Aggregation.match(Criteria.where("_id").is(savedUser.getId()));
@@ -123,6 +124,7 @@ public class UserService {
             List<Long> roleIds =
                     roles.stream().map(role -> role.getId()).collect(Collectors.toList());
             user.setRoles(roleIds);
+            user.setEnabled(false); // every user created has enabled false until the aacount activate
             return user;
         }).toList();
         List<User> savedUsers = userRepository.saveAll(users);

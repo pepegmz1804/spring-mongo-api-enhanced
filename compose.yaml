@@ -1,0 +1,32 @@
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    environment:
+      - JWT_SECRET
+
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  mongo:
+    image: mongo:8.0.10          # MongoDB versión específica
+    container_name: mongodb_8_0_10
+    ports:
+      - "27017:27017"            # Abre el puerto estándar
+    volumes:
+      - mongodb_data:/data/db    # Guarda datos entre reinicios
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dbUser
+      MONGO_INITDB_ROOT_PASSWORD: dbPassword
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/27017"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  mongodb_data:

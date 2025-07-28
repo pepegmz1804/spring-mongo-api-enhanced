@@ -11,14 +11,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.josegomez.spring_mongo_api.domain.model.Role;
 import com.josegomez.spring_mongo_api.domain.model.User;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class CustomUserDetails implements UserDetails {
     private final User user;
     private final List<GrantedAuthority> authorities;
 
     public CustomUserDetails(User user, List<Role> roles) {
+        log.debug("CustomUserDetails: " + user.getUsername() + ", " + "roles: " + roles);
         this.user = user;
         this.authorities = roles.stream()
-            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .map(role -> new SimpleGrantedAuthority(role.getKey()))
             .collect(Collectors.toList());
     }
 

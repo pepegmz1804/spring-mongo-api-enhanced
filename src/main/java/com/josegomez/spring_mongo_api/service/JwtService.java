@@ -3,13 +3,13 @@ package com.josegomez.spring_mongo_api.service;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-
 import javax.crypto.SecretKey;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.josegomez.spring_mongo_api.security.JwtProperties;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -19,24 +19,30 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "unaClaveSuperSecretaQueDebesCambiarYGuardarBien";
+    private final JwtProperties jwtProperties;
+
+    public JwtService(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+    }
 
     public String generateToken(UserDetails userDetails) {
         Instant now = Instant.now();
-        Instant expiration = now.plus(2, ChronoUnit.HOURS);
+        Instant expiration = now.plusMillis(jwtProperties.getExpiration());
 
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .claim("roles", userDetails.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).toList())
                 .issuedAt(Date.from(now))
+                .issuer(jwtProperties.getIssuer())
                 .expiration(Date.from(expiration))
                 .signWith(getSignKey()) // ya no necesitas SignatureAlgorithm
                 .compact();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        return extractUsername(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return extractUsername(token).equals(userDetails.getUsername())
+                && !isTokenExpired(token);
     }
 
     public String extractUsername(String token) {
@@ -45,13 +51,14 @@ public class JwtService {
 
     public boolean isTokenExpired(String token) {
         try {
-            return extractAllClaims(token).getExpiration().before(Date.from(Instant.now()));
+            return extractAllClaims(token).getExpiration()
+                    .before(Date.from(Instant.now()));
         } catch (ExpiredJwtException e) {
             return true;
         }
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSignKey())
                 .build()
@@ -60,7 +67,8 @@ public class JwtService {
     }
 
     private SecretKey getSignKey() {
-        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
+        byte[] keyBytes = jwtProperties.getSecret()
+                .getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

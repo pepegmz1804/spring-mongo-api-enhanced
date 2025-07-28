@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       auto-index-creation: false
-      host: localhost
+      host: mongo
       port: 27017
       username: dbUser
       password: dbPassword
@@ -23,3 +23,10 @@ springdoc:
     enabled: true
   swagger-ui:
     path: /swagger-ui.html
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 300000 # 5 minutos
+  issuer: SPRING-MONGO-API
+
+
