@@ -36,7 +36,7 @@ public class JwtService {
                 .issuedAt(Date.from(now))
                 .issuer(jwtProperties.getIssuer())
                 .expiration(Date.from(expiration))
-                .signWith(getSignKey()) // ya no necesitas SignatureAlgorithm
+                .signWith(getSignKey())
                 .compact();
     }
 

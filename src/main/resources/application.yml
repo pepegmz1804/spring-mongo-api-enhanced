@@ -29,4 +29,7 @@ jwt:
   expiration: 300000 # 5 minutos
   issuer: SPRING-MONGO-API
 
+admin:
+  email: ${ADMIN_EMAIL}
+  password: ${ADMIN_PASSWORD}
 

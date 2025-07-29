@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.josegomez.spring_mongo_api.domain.common.SequenceIdentifiable;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -48,7 +49,7 @@ public class User implements SequenceIdentifiable {
 
     @NotEmpty(message = "User must have at least one role")
     private List<Long> roles;
-    
+
     @NotBlank(message = "Username is required")
     @Size(max = 50, message = "Username must be at most 50 characters long")
     @Indexed(unique = true)
@@ -59,6 +60,11 @@ public class User implements SequenceIdentifiable {
 
     @Builder.Default
     private boolean enabled = true; // para permitir/deshabilitar login
+
+    @NotBlank(message = "E-mail is required")
+    @Size(max = 50, message = "E-mail must be at most 50 characters long")
+    @Email(message = "Invalid email format")
+    private String email;
 
     @Override
     public Long getId() {

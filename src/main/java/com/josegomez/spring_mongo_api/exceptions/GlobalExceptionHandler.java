@@ -7,6 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,8 +15,11 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
- * The GlobalExceptionHandler class in this Java code handles various exceptions and generates
+ * The GlobalExceptionHandler class in this Java code handles various exceptions
+ * and generates
  * appropriate error responses for different scenarios in a Spring application.
  */
 @ControllerAdvice
@@ -114,4 +118,37 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(error, status);
     }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException ex,
+            WebRequest request) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+
+        HttpStatus statusHttp = HttpStatus.resolve(status.value());
+        String errorPhrase = (statusHttp != null) ? statusHttp.getReasonPhrase() : status.toString();
+
+        ErrorResponse error = new ErrorResponse(
+                status.value(),
+                ex.getMessage(),
+                LocalDateTime.now(),
+                errorPhrase,
+                request.getDescription(false).replace("uri=", ""));
+
+        return new ResponseEntity<>(error, status);
+    }
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ErrorResponse> handleApiException(ApiException ex, HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.valueOf(ex.getStatus());
+
+        ErrorResponse error = new ErrorResponse(
+                ex.getStatus(),
+                ex.getMessage(),
+                LocalDateTime.now(),
+                status.getReasonPhrase(),
+                request.getRequestURI());
+        return new ResponseEntity<>(error, status);
+    }
+
 }

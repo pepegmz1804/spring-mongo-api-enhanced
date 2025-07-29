@@ -4,7 +4,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.josegomez.spring_mongo_api.domain.dto.RoleRequestDTO;
@@ -37,6 +39,12 @@ public class DataInitializer implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final InitializationTaskRepository initTaskRepository;
 
+    @Value("${admin.email}")
+    private String adminEmail;
+
+    @Value("${admin.password}")
+    private String adminPassword;
+
     /**
      * The function initializes roles and users data if they are not already present
      * in the system.
@@ -49,6 +57,7 @@ public class DataInitializer implements CommandLineRunner {
         fixRolePrefixes();
         fixPreviouslySavedUsers();
         loadAdminUser();
+        addAdminEmail();
     }
 
     private void loadRoles() {
@@ -114,8 +123,9 @@ public class DataInitializer implements CommandLineRunner {
             admin.setFirstName("admin");
             admin.setLastNamePaternal("admin");
             admin.setLastNameMaternal("admin");
-            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setRoles(roleIds);
+            admin.setEmail(adminEmail);
             userRepository.save(admin);
             log.info("✔ Usuario admin creado.");
         }
@@ -133,8 +143,9 @@ public class DataInitializer implements CommandLineRunner {
 
         userRepository.findAll().forEach(user -> {
             if (user.getUsername() == null) {
-                //user.setUsername(user.getFirstName() + user.getLastNamePaternal());
-                //user.setPassword(passwordEncoder.encode(user.getFirstName() + user.getLastNamePaternal()));
+                // user.setUsername(user.getFirstName() + user.getLastNamePaternal());
+                // user.setPassword(passwordEncoder.encode(user.getFirstName() +
+                // user.getLastNamePaternal()));
                 user.setEnabled(false);
                 userRepository.save(user);
             }
@@ -177,4 +188,28 @@ public class DataInitializer implements CommandLineRunner {
 
     }
 
+    private void addAdminEmail() {
+        log.debug("Add admin email start");
+        String taskKey = "ADD_ADMIN_EMAIL";
+
+        boolean alreadyExecuted = initTaskRepository.existsById(taskKey);
+        if (alreadyExecuted) {
+            log.debug("Add admin email already executed");
+            return;
+        }
+
+        User userAdmin = userRepository.findByUsername("admin")
+                .orElseThrow(() -> new UsernameNotFoundException("User admin not found"));
+        userAdmin.setEmail(adminEmail);
+        userRepository.save(userAdmin);
+
+        InitializationTask task = new InitializationTask();
+        task.setKey(taskKey);
+        task.setDescription("Add email for admin user");
+        task.setExecutedAt(Instant.now());
+        task.setExecuted(true);
+        initTaskRepository.save(task);
+        log.debug("Add admin email success");
+
+    }
 }
