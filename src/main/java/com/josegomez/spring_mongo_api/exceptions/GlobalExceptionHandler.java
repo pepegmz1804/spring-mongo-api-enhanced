@@ -7,6 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -64,7 +65,7 @@ public class GlobalExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
         String message = ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + " " + error.getDefaultMessage())
+                .map(error -> error.getDefaultMessage())
                 .collect(Collectors.joining(", "));
 
         ErrorResponse error = new ErrorResponse(
@@ -148,6 +149,41 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 status.getReasonPhrase(),
                 request.getRequestURI());
+        return new ResponseEntity<>(error, status);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex,
+            WebRequest request) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+
+        HttpStatus statusHttp = HttpStatus.resolve(status.value());
+        String errorPhrase = (statusHttp != null) ? statusHttp.getReasonPhrase() : status.toString();
+
+        ErrorResponse error = new ErrorResponse(
+                status.value(),
+                ex.getMessage(),
+                LocalDateTime.now(),
+                errorPhrase,
+                request.getDescription(false).replace("uri=", ""));
+
+        return new ResponseEntity<>(error, status);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(HttpMessageNotReadableException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        HttpStatus statusHttp = HttpStatus.resolve(status.value());
+        String errorPhrase = (statusHttp != null) ? statusHttp.getReasonPhrase() : status.toString();
+
+        ErrorResponse error = new ErrorResponse(
+                status.value(),
+                ex.getMessage(),
+                LocalDateTime.now(),
+                errorPhrase,
+                request.getDescription(false).replace("uri=", ""));
+
         return new ResponseEntity<>(error, status);
     }
 

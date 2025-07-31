@@ -28,6 +28,8 @@ jwt:
   secret: ${JWT_SECRET}
   expiration: 300000 # 5 minutos
   issuer: SPRING-MONGO-API
+  activateExpiration: 300000 # 5 minutos
+
 
 admin:
   email: ${ADMIN_EMAIL}

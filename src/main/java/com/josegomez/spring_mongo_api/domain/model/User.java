@@ -56,10 +56,10 @@ public class User implements SequenceIdentifiable {
     private String username;
 
     @NotBlank(message = "Password is required")
-    private String password; // hasheabke con BCrypt
+    private String password; // hasheabke with BCrypt
 
     @Builder.Default
-    private boolean enabled = true; // para permitir/deshabilitar login
+    private boolean enabled = true; // allow login
 
     @NotBlank(message = "E-mail is required")
     @Size(max = 50, message = "E-mail must be at most 50 characters long")

@@ -1,20 +1,20 @@
 package com.josegomez.spring_mongo_api.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.josegomez.spring_mongo_api.domain.dto.ActivateAccountRequestDTO;
 import com.josegomez.spring_mongo_api.domain.dto.AuthRequestDTO;
 import com.josegomez.spring_mongo_api.domain.dto.AuthResponseDTO;
-import com.josegomez.spring_mongo_api.service.CustomUserDetailsService;
-import com.josegomez.spring_mongo_api.service.JwtService;
+import com.josegomez.spring_mongo_api.domain.dto.GenerateTokenRequestDTO;
+import com.josegomez.spring_mongo_api.domain.dto.GenerateTokenResponsetDTO;
+import com.josegomez.spring_mongo_api.service.AuthService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,19 +22,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
-    private final CustomUserDetailsService userDetailsService;
+    private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequestDTO request) {
-        Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthRequestDTO request) {
+        return ResponseEntity.ok(authService.login(request));
+    }
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        String token = jwtService.generateToken(userDetails);
+    @PostMapping("/activate-account")
+    public ResponseEntity<Void> activateAccount(@Valid @RequestBody ActivateAccountRequestDTO request) {
+        authService.activateAccount(request);
+        return ResponseEntity.ok().build();
+    }
 
-        return ResponseEntity.ok(new AuthResponseDTO(token));
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/start-activate-account")
+    public ResponseEntity<GenerateTokenResponsetDTO> startActivateAccount(@RequestBody GenerateTokenRequestDTO request) {
+        return ResponseEntity.ok(authService.startActivateAccount(request));
     }
 }
